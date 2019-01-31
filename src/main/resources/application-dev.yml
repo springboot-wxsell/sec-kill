@@ -12,3 +12,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapping/*.xml
+logging:
+  level:
+    com.ww.seckill.dao: debug
