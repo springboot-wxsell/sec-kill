@@ -1,6 +1,7 @@
 package com.ww.seckill.service;
 
 import com.ww.seckill.dataobject.UserDO;
+import com.ww.seckill.exception.BusinessException;
 import com.ww.seckill.service.model.UserModel;
 
 /**
@@ -18,4 +19,18 @@ public interface UserService {
      * @return
      */
     UserModel getUserById(Integer id);
+
+    /**
+     * 用户注册
+     * @param userModel
+     */
+    void register(UserModel userModel) throws BusinessException;
+
+    /**
+     * 用户登录
+     * @param telephone : 用户注册的手机
+     * @param encryptPassword : 加密后的密码
+     * @return UserModel
+     */
+    UserModel validateLogin(String telephone, String encryptPassword) throws BusinessException;
 }
