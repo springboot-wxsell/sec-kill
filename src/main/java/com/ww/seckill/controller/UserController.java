@@ -32,7 +32,7 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private HttpServletRequest request;
 

@@ -8,6 +8,8 @@ import com.ww.seckill.error.EmBusinessError;
 import com.ww.seckill.exception.BusinessException;
 import com.ww.seckill.service.UserService;
 import com.ww.seckill.service.model.UserModel;
+import com.ww.seckill.validator.ValidationResult;
+import com.ww.seckill.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -30,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
+
+    @Autowired
+    private ValidatorImpl validator;
 
     @Override
     public UserModel getUserById(Integer id) {
@@ -69,10 +74,15 @@ public class UserServiceImpl implements UserService {
         if (userModel == null) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-
+        /*
         if (StringUtils.isEmpty(userModel.getName()) || userModel.getGender() == null ||
                 userModel.getAge() == null || StringUtils.isEmpty(userModel.getTelephone())) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+        */
+        ValidationResult result = validator.validate(userModel);
+        if (result.isHasErrors()) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrorMsg());
         }
         UserDO userDO = convertFromModel(userModel);
         userDOMapper.insertSelective(userDO);
