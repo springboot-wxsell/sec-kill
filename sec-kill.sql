@@ -16,3 +16,21 @@ CREATE TABLE `user_password` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户密码';
+
+
+CREATE TABLE `item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(64) NOT NULL DEFAULT '',
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `description` varchar(500) NOT NULL DEFAULT '',
+  `sales` int(11) NOT NULL DEFAULT '0',
+  `img_url` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品信息'
+
+CREATE TABLE `item_stock` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stock` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品库存'
