@@ -26,11 +26,29 @@ CREATE TABLE `item` (
   `sales` int(11) NOT NULL DEFAULT '0',
   `img_url` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品信息'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品信息';
 
 CREATE TABLE `item_stock` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stock` int(11) NOT NULL DEFAULT '0',
   `item_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品库存'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品库存';
+
+
+CREATE TABLE `oder_info` (
+  `id` varchar(32) NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `item_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `amount` int(11) NOT NULL DEFAULT '0',
+  `order_amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单信息';
+
+CREATE TABLE `sequence_info` (
+  `name` varchar(255) NOT NULL,
+  `current_value` int(11) NOT NULL DEFAULT '0',
+  `step` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自增序列';
