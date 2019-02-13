@@ -17,11 +17,17 @@ public enum EmBusinessError implements CommonError {
     USER_NOT_EXIST(20001, "用户不存在"),
     USER_LOGIN_FAIL(20002, "用户手机号或密码不正确"),
     USER_NOT_LOGIN(20003, "用户还未登录"),
+
     // 20011开头为商品信息相关错误定义
     ITEM_NOT_EXIST(20011, "商品信息不存在"),
     ITEM_AMOUNT_ERROR(20012, "商品数量不合法"),
+
     // 20021开头为交易信息相关错误定义
     STOCK_NOT_ENOUGH(20021, "库存不足"),
+
+    // 20031开头为秒杀活动信息相关错误定义
+    PROMO_INFO_ERROR(20031, "活动信息不正确"),
+    PROMO_NOT_STARTED(20032, "活动还未开始"),
     ;
 
     private int errCode;

@@ -12,6 +12,8 @@ public class OrderDO {
 
     private Integer itemId;
 
+    private Integer promoId;
+
     private BigDecimal itemPrice;
 
     private Integer amount;

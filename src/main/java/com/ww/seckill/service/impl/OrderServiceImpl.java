@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     private SequenceDOMapper sequenceDOMapper;
     @Override
     @Transactional
-    public OrderModel createOrder(Integer userId, Integer itemId, Integer amount) throws BusinessException {
+    public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount) throws BusinessException {
         // 1.校验下单状态， 下单的商品是否存在， 用户是否合法，购买数量是否正确
         ItemModel itemModel = itemService.getItemById(itemId);
         if (itemModel == null) {
@@ -53,6 +53,19 @@ public class OrderServiceImpl implements OrderService {
         if (amount <= 0 || amount > 99) {
             throw new BusinessException(EmBusinessError.ITEM_AMOUNT_ERROR);
         }
+
+        // 校验活动信息
+        if (promoId == null) {
+            // a. 校验对应的活动是否存在这个适用的商品
+            if (promoId.intValue() != itemModel.getId()) {
+                throw new BusinessException(EmBusinessError.PROMO_INFO_ERROR);
+            }
+            // b. 校验活动是否正在进行中
+            if (itemModel.getPromoModel().getStatus().intValue() != 2) {
+                throw new BusinessException(EmBusinessError.PROMO_NOT_STARTED);
+            }
+        }
+
         // 2. 落单减库存，支付减库存
         boolean result = itemService.decreaseStock(amount, itemId);
         if (!result) {
@@ -64,8 +77,13 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setUserId(userId);
         orderModel.setItemId(itemId);
         orderModel.setAmount(amount);
-        orderModel.setItemPrice(itemModel.getPrice());
-        orderModel.setOrderAmount(itemModel.getPrice().multiply(new BigDecimal(amount)));
+        if (promoId != null) {
+            orderModel.setItemPrice(itemModel.getPromoModel().getPromoItemPrice());
+        }else{
+            orderModel.setItemPrice(itemModel.getPrice());
+        }
+        orderModel.setPromoId(promoId);
+        orderModel.setOrderAmount(orderModel.getItemPrice().multiply(new BigDecimal(amount)));
 
         // 生成交易流水号，订单号
         orderModel.setId(KeyUtils.genUniqueKey(genSequence()));
@@ -94,8 +112,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderDO convertDOFromModel(OrderModel orderModel) {
-        if (orderModel == null) {
-            return null;
+            if (orderModel == null) {
+                return null;
         }
         OrderDO orderDO = new OrderDO();
         BeanUtils.copyProperties(orderModel, orderDO);

@@ -39,4 +39,6 @@ public class ItemModel {
     @NotBlank(message = "商品图片信息不能为空")
     private String imgUrl;
 
+    // 商品具备秒杀活动信息, 如果promoModel不为空，则表示拥有还未结束的秒杀活动
+    private PromoModel promoModel;
 }

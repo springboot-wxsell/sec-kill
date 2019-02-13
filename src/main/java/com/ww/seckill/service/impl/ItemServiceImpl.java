@@ -7,7 +7,9 @@ import com.ww.seckill.dataobject.ItemStockDO;
 import com.ww.seckill.error.EmBusinessError;
 import com.ww.seckill.exception.BusinessException;
 import com.ww.seckill.service.ItemService;
+import com.ww.seckill.service.PromoService;
 import com.ww.seckill.service.model.ItemModel;
+import com.ww.seckill.service.model.PromoModel;
 import com.ww.seckill.validator.ValidationResult;
 import com.ww.seckill.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +31,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+
+    @Autowired
+    private PromoService promoService;
 
     @Autowired
     private ValidatorImpl validator;
@@ -75,7 +80,11 @@ public class ItemServiceImpl implements ItemService {
         // 将dataobject -> model
         ItemModel itemModel = convertModelFromDataObject(itemDO, itemStockDO);
 
-
+        // 获取秒杀活动信息
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        if (promoModel != null && promoModel.getStatus() != 3) {
+            itemModel.setPromoModel(promoModel);
+        }
         return itemModel;
     }
 

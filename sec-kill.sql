@@ -46,9 +46,22 @@ CREATE TABLE `oder_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单信息';
 
+alter table `sec_kill`.`order_info`
+   add column `promo_id` int DEFAULT '0' NOT NULL after `item_id`;
+
 CREATE TABLE `sequence_info` (
   `name` varchar(255) NOT NULL,
   `current_value` int(11) NOT NULL DEFAULT '0',
   `step` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自增序列';
+
+CREATE TABLE `promo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `promo_name` varchar(255) NOT NULL DEFAULT '',
+  `start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `promo_item_price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='秒杀活动'

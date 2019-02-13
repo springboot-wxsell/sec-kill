@@ -1,6 +1,7 @@
 package com.ww.seckill.controller.viewobject;
 
 import lombok.Data;
+import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
 
@@ -29,5 +30,20 @@ public class ItemVO {
 
     // 商品描述图片的url
     private String imgUrl;
+
+    // 记录商品是否在秒杀活动中，0: 没有秒杀活动, 1: 活动待开始, 2: 活动进行中
+    private Integer promoStatus;
+
+    // 秒杀活动价格
+    private BigDecimal promoPrice;
+
+    // 秒杀活动ID
+    private Integer promoId;
+
+    // 秒杀活动开始时间
+    private String startDate;
+
+
+
 
 }
