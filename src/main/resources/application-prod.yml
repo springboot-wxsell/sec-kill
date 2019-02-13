@@ -1,0 +1,17 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    name: sec-kill
+    url: jdbc:mysql://192.168.185.129:3306/sec_kill?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+#logging:
+#  level:
+#    com.ww.seckill.dao: debug
